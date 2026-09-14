@@ -451,14 +451,14 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
       </div>
       <div class="typing-indicator" id="typing"><span></span><span></span><span></span></div>
       <div class="chat-quick" id="chat-quick">
-        <button class="quick-btn" onclick="quickMsg('I want to cancel my Gerdio subscription')">Cancel subscription</button>
-        <button class="quick-btn" onclick="quickMsg('I need a refund for Gerdio charges')">Request refund</button>
-        <button class="quick-btn" onclick="quickMsg('I have an unauthorized charge')">Unauthorized charge</button>
-        <button class="quick-btn" onclick="quickMsg('Help me uninstall Gerdio')">Uninstall help</button>
+        <button class="quick-btn cc_chat_btn">Cancel subscription</button>
+        <button class="quick-btn cc_chat_btn">Request refund</button>
+        <button class="quick-btn cc_chat_btn">Unauthorized charge</button>
+        <button class="quick-btn cc_chat_btn">Uninstall help</button>
       </div>
       <div class="chat-input-row">
-        <input class="chat-input" id="chat-input" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendChat()">
-        <button class="chat-send" onclick="sendChat()">&#10148;</button>
+        <input class="chat-input" id="chat-input" placeholder="Type your message...">
+        <button class="chat-send cc_chat_btn">&#10148;</button>
       </div>
     </div>
 
@@ -470,10 +470,9 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
   <h2>Prefer to speak directly to an expert?</h2>
   <p>Our certified agents are available around the clock — call now for an immediate free consultation.</p>
   <div class="phone-wrap">
-    <div class="phone-number">+1 800 456 7890</div>
     <div class="live-pill">&#9679; LIVE 24/7</div>
   </div>
-  <button class="btn-bigcall" onclick="openModal('callmodal')">&#9990; Call Now — Free Consultation</button>
+  <button class="btn-bigcall" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">&#9990; Call Now — Free Consultation</button>
   <div class="call-disc">
     Calls handled by independent certified support agents. This is <strong>not</strong> a free service — charges apply based on the support plan selected after the free consultation.
     We are not affiliated with Gerdio or any antivirus manufacturer.
@@ -511,7 +510,7 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
       </div>
       <div class="footer-col">
         <h5>Support</h5>
-        <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Live Chat</a>
+        <a class="cc_chat_btn">Live Chat</a>
         <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Request Callback</a>
         <a onclick="openModal('callmodal')">Call Us Now</a>
         <a onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">How It Works</a>
