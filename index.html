@@ -838,5 +838,35 @@ function quickMsg(text){
   })();
 </script>
 <!--End of Tawk.to Script-->
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Unified Event Delegation: Handles existing and dynamically added elements safely
+      document.body.addEventListener("click", (event) => {
+          // Find the closest target matching either selector
+          const targetElement = event.target.closest(".customChatOpenButton a, .cc_chat_btn");
+  
+          if (!targetElement) return;
+  
+          // 2. Prevent default link behavior
+          event.preventDefault();
+  
+          // 3. Security: Defensive type and ownership checking for global API objects
+          if (
+              typeof window.Tawk_API === "object" &&
+              window.Tawk_API !== null &&
+              typeof window.Tawk_API.maximize === "function"
+          ) {
+              try {
+                  window.Tawk_API.maximize();
+              } catch (err) {
+                  console.error("Failed to maximize Tawk chat widget:", err);
+              }
+          } else {
+              console.warn("Tawk_API is not available or fully loaded yet.");
+          }
+      });
+  });
+  </script>
 </body>
 </html>
