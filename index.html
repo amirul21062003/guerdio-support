@@ -257,7 +257,7 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
   </div>
   <div class="nav-cta">
     <button class="btn-chat-nav cc_chat_btn">&#128172; Live Chat</button>
-    <button class="btn-call" onclick="openModal('callmodal')">&#9990; +1 800 456 7890</button>
+    <button class="btn-call" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">✆ Call Now — Free Consultation</button>
   </div>
 </nav>
 
@@ -673,7 +673,7 @@ refund:`<h2>Refund &amp; Cancellation Policy</h2>
 <h3>Session Cancellation by Client</h3>
 <p>You may cancel a scheduled callback at no charge any time <strong>before</strong> the session begins. Cancellations during an active session where work has commenced are non-refundable.</p>
 <h3>Contact</h3>
-<p>Email: refunds@Gerdiosupport.com &nbsp;|&nbsp; Phone: +1 800 456 7890</p>`,
+<p>Email: refunds@Gerdiosupport.com</p>`,
 
 cookie:`<h2>Cookie Policy</h2>
 <p class="updated">Last updated: January 2025</p>
@@ -755,9 +755,9 @@ account_info:`<h2>Account &amp; Login Issues</h2>
 callmodal:`<h2>&#9990; Call Us Now</h2>
 <div class="highlight-box"><p>Free consultation — no obligation. Charges only apply if you choose a support plan after diagnosis.</p></div>
 <div style="text-align:center;padding:20px 0">
-  <div style="font-family:var(--font-display);font-size:36px;font-weight:800;letter-spacing:-1px;color:var(--g-white);margin-bottom:8px">+1 800 456 7890</div>
+  <div style="font-family:var(--font-display);font-size:36px;font-weight:800;letter-spacing:-1px;color:var(--g-white);margin-bottom:8px">✆ Call Now — Free Consultation</div>
   <div style="display:inline-block;background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.25);border-radius:20px;font-size:12px;padding:5px 14px;margin-bottom:20px">&#9679; LIVE NOW — 24 hours a day, 7 days a week</div><br>
-  <a href="tel:+18004567890" style="display:inline-flex;align-items:center;gap:9px;background:var(--g-red);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:16px;font-weight:500;font-family:var(--font-display)">&#9990; Tap to Call Now</a>
+  <a href="#" style="display:inline-flex;align-items:center;gap:9px;background:var(--g-red);color:#fff;text-decoration:none;padding:14px 32px;border-radius:10px;font-size:16px;font-weight:500;font-family:var(--font-display)">&#9990; Tap to Call Now</a>
 </div>
 <p style="font-size:11.5px;color:#475569;text-align:center;line-height:1.6;margin-top:10px">
   Independent paid support service. Not affiliated with Gerdio or any antivirus manufacturer. Standard phone rates may apply. This is a Google Ads sponsored listing. See our <a onclick="openModal('refund')" style="color:#64748b">Refund Policy</a> and <a onclick="openModal('disclaimer')" style="color:#64748b">Disclaimer</a>.
