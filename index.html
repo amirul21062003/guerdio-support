@@ -815,8 +815,8 @@ document.addEventListener("DOMContentLoaded", () => {
           name: `${fname} ${lname}`.trim(),
           email: email,
           phone: phone,
-          source: `Website Lead Form (${issue || 'No issue selected'})` + 
-                  (description ? ` — ${description}` : ''),
+          issue: issue,
+          description: description,
           page_url: window.location.href,
         }),
       });
@@ -910,17 +910,13 @@ function quickMsg(text){
 
   <script>
     document.addEventListener("DOMContentLoaded", () => {
-      // 1. Unified Event Delegation: Handles existing and dynamically added elements safely
       document.body.addEventListener("click", (event) => {
           // Find the closest target matching either selector
           const targetElement = event.target.closest(".customChatOpenButton a, .cc_chat_btn");
   
           if (!targetElement) return;
-  
-          // 2. Prevent default link behavior
           event.preventDefault();
   
-          // 3. Security: Defensive type and ownership checking for global API objects
           if (
               typeof window.Tawk_API === "object" &&
               window.Tawk_API !== null &&
