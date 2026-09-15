@@ -398,13 +398,28 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
 
       <form id="lead-form-inner">
         <div class="frow">
-          <div class="fgroup"><label>First Name</label><input type="text" placeholder="John" id="fname"></div>
-          <div class="fgroup"><label>Last Name</label><input type="text" placeholder="Smith" id="lname"></div>
+          <div class="fgroup">
+            <label for="fname">First Name</label>
+            <input type="text" placeholder="John" id="fname" required>
+          </div>
+          <div class="fgroup">
+            <label for="lname">Last Name</label>
+            <input type="text" placeholder="Smith" id="lname">
+          </div>
         </div>
-        <div class="fgroup"><label>Phone Number</label><input type="tel" placeholder="+1 (555) 000-0000" id="phone"></div>
-        <div class="fgroup"><label>Email Address</label><input type="email" placeholder="john@email.com" id="email"></div>
+      
         <div class="fgroup">
-          <label>Issue Type</label>
+          <label for="phone">Phone Number</label>
+          <input type="tel" placeholder="+1 (555) 000-0000" id="phone" required>
+        </div>
+      
+        <div class="fgroup">
+          <label for="email">Email Address</label>
+          <input type="email" placeholder="john@email.com" id="email" required>
+        </div>
+      
+        <div class="fgroup">
+          <label for="issue">Issue Type</label>
           <select id="issue">
             <option value="">Select your issue...</option>
             <option value="Cancel Subscription">Cancel Subscription</option>
@@ -416,13 +431,20 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
             <option value="Other">Other</option>
           </select>
         </div>
-        <div class="fgroup"><label>Brief Description (optional)</label><textarea placeholder="Describe your issue briefly..."></textarea></div>
+      
+        <div class="fgroup">
+          <label for="description">Brief Description (optional)</label>
+          <!-- এখানে id="description" যুক্ত করা হয়েছে -->
+          <textarea placeholder="Describe your issue briefly..." id="description"></textarea>
+        </div>
+      
         <button type="submit" class="form-submit">Request Free Callback &#8594;</button>
+      
         <div class="form-consent">
           By submitting you agree to our
-          <a onclick="openModal('terms')">Terms &amp; Conditions</a>,
-          <a onclick="openModal('privacy')">Privacy Policy</a>, and
-          <a onclick="openModal('refund')">Refund Policy</a>.
+          <a href="#" onclick="openModal('terms'); return false;">Terms &amp; Conditions</a>,
+          <a href="#" onclick="openModal('privacy'); return false;">Privacy Policy</a>, and
+          <a href="#" onclick="openModal('refund'); return false;">Refund Policy</a>.
           This is a paid support service. Standard rates apply after free diagnosis. We do not share your data with advertisers.
         </div>
       </form>
@@ -755,60 +777,65 @@ function handleOverlayClick(e){
   if(e.target === document.getElementById('modal-overlay')) closeModal();
 }
 
-let form = document.querySelector('form#lead-form-inner');
-console.log(form);
-  
-function async submitLead(){
-  const fn = document.getElementById('fname').value.trim();
-  const ph = document.getElementById('phone').value.trim();
-  const em = document.getElementById('email').value.trim();
-  if(!fn || !ph || !em){
-    alert('Please fill in your name, phone, and email to continue.');
-    return;
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector('form#lead-form-inner');
 
-  const serviceLabels = { residential: 'Residential', commercial: 'Commercial', other: 'Other' };
+  if (!form) return;
 
-  submitBtn.disabled = true;
-  const originalLabel = submitBtn.textContent;
-  submitBtn.textContent = 'Sending…';
+  form.addEventListener('submit', async function(event) {
+    event.preventDefault();
 
-  try {
-    const response = await fetch('https://cc-crm.test/api/leads', {
-      method: 'POST',
-      headers: {
-        'Authorization': 'Bearer YOUR_TOKEN_HERE',
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        name: `${fname} ${lname}`.trim(),
-        email: email,
-        phone: phone,
-        source: `Website Quote Form (${serviceLabels[service] || service})` +
-                (description ? ` — ${description}` : ''),
-        page_url: window.location.href,
-      }),
-    });
+    const submitBtn = form.querySelector('button[type="submit"]');
 
-    if (!response.ok) {
-      const data = await response.json().catch(() => ({}));
-      throw new Error(data.message || 'Request failed');
+    const fname = document.getElementById('fname').value.trim();
+    const lname = document.getElementById('lname').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const issue = document.getElementById('issue').value;
+    const description = document.getElementById('description').value.trim();
+
+    if (!fname || !phone || !email) {
+      alert('Please fill in your name, phone, and email to continue.');
+      return;
     }
 
-    form.reset();
-    submitBtn.textContent = 'Request submitted ✓';
-  } catch (err) {
-    alert('Sorry, something went wrong submitting your request. Please try again or call us directly.');
-    submitBtn.disabled = false;
-    submitBtn.textContent = originalLabel;
-  }
+    submitBtn.disabled = true;
+    const originalLabel = submitBtn.textContent;
+    submitBtn.textContent = 'Sending…';
 
+    try {
+      const response = await fetch('https://cc-crm.test/api/leads', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer 1|Y6b0tfjUapeylhGbSa9Nfk1NT02ziOgPSwi0DaDZe46e18bf',
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: `${fname} ${lname}`.trim(),
+          email: email,
+          phone: phone,
+          source: `Website Lead Form (${issue || 'No issue selected'})` + 
+                  (description ? ` — ${description}` : ''),
+          page_url: window.location.href,
+        }),
+      });
 
-  
-  document.getElementById('lead-form-inner').style.display = 'none';
-  document.getElementById('lead-success').classList.add('show');
-}
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        throw new Error(data.message || 'Request failed');
+      }
+
+      form.reset();
+      submitBtn.textContent = 'Request submitted ✓';
+    } catch (err) {
+      console.error(err);
+      alert('Sorry, something went wrong submitting your request. Please try again or call us directly.');
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+    }
+  });
+});
 
 // CHAT BOT LOGIC
 const chatBotResponses = {
