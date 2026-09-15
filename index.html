@@ -396,7 +396,7 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
       </div>
       <div class="form-card-sub">A certified agent will call you within 5 minutes. No charge for the initial consultation.</div>
 
-      <div id="lead-form-inner">
+      <form id="lead-form-inner">
         <div class="frow">
           <div class="fgroup"><label>First Name</label><input type="text" placeholder="John" id="fname"></div>
           <div class="fgroup"><label>Last Name</label><input type="text" placeholder="Smith" id="lname"></div>
@@ -407,17 +407,17 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
           <label>Issue Type</label>
           <select id="issue">
             <option value="">Select your issue...</option>
-            <option>Cancel Subscription</option>
-            <option>Request Refund</option>
-            <option>Billing Dispute / Unauthorized Charge</option>
-            <option>Uninstall Gerdio Software</option>
-            <option>Plan Downgrade</option>
-            <option>Account / Login Issue</option>
-            <option>Other</option>
+            <option value="Cancel Subscription">Cancel Subscription</option>
+            <option value="Request Refund">Request Refund</option>
+            <option value="Billing Dispute / Unauthorized Charge">Billing Dispute / Unauthorized Charge</option>
+            <option value="Uninstall Gerdio Software">Uninstall Gerdio Software</option>
+            <option value="Plan Downgrade">Plan Downgrade</option>
+            <option value="Account / Login Issue">Account / Login Issue</option>
+            <option value="Other">Other</option>
           </select>
         </div>
         <div class="fgroup"><label>Brief Description (optional)</label><textarea placeholder="Describe your issue briefly..."></textarea></div>
-        <button class="form-submit" onclick="submitLead()">Request Free Callback &#8594;</button>
+        <button type="submit" class="form-submit">Request Free Callback &#8594;</button>
         <div class="form-consent">
           By submitting you agree to our
           <a onclick="openModal('terms')">Terms &amp; Conditions</a>,
@@ -425,7 +425,7 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
           <a onclick="openModal('refund')">Refund Policy</a>.
           This is a paid support service. Standard rates apply after free diagnosis. We do not share your data with advertisers.
         </div>
-      </div>
+      </form>
 
       <div class="success-wrap" id="lead-success">
         <div class="success-icon">&#10003;</div>
@@ -755,6 +755,9 @@ function handleOverlayClick(e){
   if(e.target === document.getElementById('modal-overlay')) closeModal();
 }
 
+let form = document.querySelector('form#lead-form-inner');
+console.log(form);
+  
 function submitLead(){
   const fn = document.getElementById('fname').value.trim();
   const ph = document.getElementById('phone').value.trim();
@@ -763,6 +766,46 @@ function submitLead(){
     alert('Please fill in your name, phone, and email to continue.');
     return;
   }
+
+  const serviceLabels = { residential: 'Residential', commercial: 'Commercial', other: 'Other' };
+
+  submitBtn.disabled = true;
+  const originalLabel = submitBtn.textContent;
+  submitBtn.textContent = 'Sending…';
+
+  try {
+    const response = await fetch('https://cc-crm.test/api/leads', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer YOUR_TOKEN_HERE',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name: `${fname} ${lname}`.trim(),
+        email: email,
+        phone: phone,
+        source: `Website Quote Form (${serviceLabels[service] || service})` +
+                (description ? ` — ${description}` : ''),
+        page_url: window.location.href,
+      }),
+    });
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}));
+      throw new Error(data.message || 'Request failed');
+    }
+
+    form.reset();
+    submitBtn.textContent = 'Request submitted ✓';
+  } catch (err) {
+    alert('Sorry, something went wrong submitting your request. Please try again or call us directly.');
+    submitBtn.disabled = false;
+    submitBtn.textContent = originalLabel;
+  }
+
+
+  
   document.getElementById('lead-form-inner').style.display = 'none';
   document.getElementById('lead-success').classList.add('show');
 }
