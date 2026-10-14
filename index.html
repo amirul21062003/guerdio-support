@@ -277,9 +277,9 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
   <h1>Cancel Your <span class="accent">Guerdio</span> Subscription<br>&amp; Get Your Refund Fast</h1>
   <p>Expert support for Guerdio antivirus cancellation, refund requests, billing disputes, and technical issues. Resolved remotely within minutes.</p>
   <div class="hero-actions">
-    <button class="btn-primary" onclick="openModal('callmodal')">
+    <a class="btn-primary" href="#lead-form">
       &#9990; Call Now — Free Consultation
-    </button>
+    </a>
     <button class="btn-secondary cc_chat_btn">
       &#128172; Start Live Chat
     </button>
@@ -389,7 +389,7 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
   <div class="contact-grid">
 
     <!-- LEAD FORM -->
-    <div class="form-card">
+    <div class="form-card" id='lead-form'>
       <div class="form-card-head">
         <div style="width:36px;height:36px;background:rgba(232,37,58,.12);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:17px">&#128222;</div>
         <h2>Request a Callback</h2>
@@ -534,7 +534,7 @@ footer{background:var(--g-dark2);border-top:1px solid var(--g-border);padding:48
         <h5>Support</h5>
         <a class="cc_chat_btn">Live Chat</a>
         <a onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Request Callback</a>
-        <a onclick="openModal('callmodal')">Call Us Now</a>
+        <a href="#lead-form">Call Us Now</a>
         <a onclick="document.getElementById('how-it-works').scrollIntoView({behavior:'smooth'})">How It Works</a>
       </div>
       <div class="footer-col">
